@@ -127,6 +127,9 @@ path_clip_vision = get_dir_or_set_default('path_clip_vision', '../models/clip_vi
 path_fooocus_expansion = get_dir_or_set_default('path_fooocus_expansion', '../models/prompt_expansion/fooocus_expansion')
 path_outputs = get_dir_or_set_default('path_outputs', '../outputs/')
 
+base_model_juggernautV6Rundiffusion = {"juggernautXL_version6Rundiffusion.safetensors": "https://huggingface.co/lllyasviel/fav_models/resolve/main/fav/juggernautXL_version6Rundiffusion.safetensors"} 
+base_model_juggernautV8Rundiffusion = {"juggernautXL_version8Rundiffusion.safetensors": "https://huggingface.co/ckevar/juggernautXL_version8Rundiffussion/resolve/main/juggernautXL_version8Rundiffussion.safetensors"}
+default_base_model = base_model_juggernautV8Rundiffusion
 
 def get_config_item_or_set_default(key, default_value, validator, disable_empty_as_none=False):
     global config_dict, visited_keys
@@ -255,9 +258,7 @@ default_image_number = get_config_item_or_set_default(
 )
 checkpoint_downloads = get_config_item_or_set_default(
     key='checkpoint_downloads',
-    default_value={
-        "juggernautXL_version6Rundiffusion.safetensors": "https://huggingface.co/lllyasviel/fav_models/resolve/main/fav/juggernautXL_version6Rundiffusion.safetensors"
-    },
+    default_value=default_base_model,
     validator=lambda x: isinstance(x, dict) and all(isinstance(k, str) and isinstance(v, str) for k, v in x.items())
 )
 lora_downloads = get_config_item_or_set_default(
