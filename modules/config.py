@@ -55,7 +55,7 @@ def try_load_deprecated_user_path_config():
         replace_config('fooocus_expansion_path', 'path_fooocus_expansion')
         replace_config('temp_outputs_path', 'path_outputs')
 
-        if deprecated_config_dict.get("default_model", None) == 'juggernautXL_version6Rundiffusion.safetensors':
+        if deprecated_config_dict.get("default_model", None) == default_base_model_name_:
             os.replace('user_path_config.txt', 'user_path_config-deprecated.txt')
             print('Config updated successfully in silence. '
                   'A backup of previous config is written to "user_path_config-deprecated.txt".')
@@ -127,9 +127,14 @@ path_clip_vision = get_dir_or_set_default('path_clip_vision', '../models/clip_vi
 path_fooocus_expansion = get_dir_or_set_default('path_fooocus_expansion', '../models/prompt_expansion/fooocus_expansion')
 path_outputs = get_dir_or_set_default('path_outputs', '../outputs/')
 
-base_model_juggernautV6Rundiffusion = {"juggernautXL_version6Rundiffusion.safetensors": "https://huggingface.co/lllyasviel/fav_models/resolve/main/fav/juggernautXL_version6Rundiffusion.safetensors"} 
-base_model_juggernautV8Rundiffusion = {"juggernautXL_version8Rundiffusion.safetensors": "https://huggingface.co/ckevar/juggernautXL_version8Rundiffussion/resolve/main/juggernautXL_version8Rundiffussion.safetensors"}
-default_base_model = base_model_juggernautV8Rundiffusion
+base_model_juggernautV6Rundiffusion_name = "juggernautXL_version6Rundiffusion.safetensors"
+base_model_juggernautV8Rundiffusion_name = "juggernautXL_version8Rundiffusion.safetensors"
+
+base_model_juggernautV6Rundiffusion = {base_model_juggernautV6Rundiffusion_name: "https://huggingface.co/lllyasviel/fav_models/resolve/main/fav/juggernautXL_version6Rundiffusion.safetensors"} 
+base_model_juggernautV8Rundiffusion = {base_model_juggernautV8Rundiffusion_name: "https://huggingface.co/ckevar/juggernautXL_version8Rundiffussion/resolve/main/juggernautXL_version8Rundiffussion.safetensors"}
+
+default_base_model_dict = base_model_juggernautV8Rundiffusion
+default_base_model_name_ = base_model_juggernautV8Rundiffusion_name
 
 def get_config_item_or_set_default(key, default_value, validator, disable_empty_as_none=False):
     global config_dict, visited_keys
@@ -156,7 +161,7 @@ def get_config_item_or_set_default(key, default_value, validator, disable_empty_
 
 default_base_model_name = get_config_item_or_set_default(
     key='default_model',
-    default_value='juggernautXL_version6Rundiffusion.safetensors',
+    default_value=default_base_model_name_,
     validator=lambda x: isinstance(x, str)
 )
 default_refiner_model_name = get_config_item_or_set_default(
@@ -258,7 +263,7 @@ default_image_number = get_config_item_or_set_default(
 )
 checkpoint_downloads = get_config_item_or_set_default(
     key='checkpoint_downloads',
-    default_value=default_base_model,
+    default_value=default_base_model_dict,
     validator=lambda x: isinstance(x, dict) and all(isinstance(k, str) and isinstance(v, str) for k, v in x.items())
 )
 lora_downloads = get_config_item_or_set_default(
